@@ -28,16 +28,16 @@ export async function validateUser(req: Request, res: Response) {
     const user = await db.user.findUnique({ where: { username: username } }) as unknown as { id: number; username: string; password: string | undefined; date: Date } | null;
     console.log(user)
     if (!user) return res.json({ result: { user: null, token: null } });
-    bcrypt.compare(password, user?.password || "", function(err, result) {
-        if (result === true){
+    bcrypt.compare(password, user?.password || "", function (err, result) {
+        if (result === true) {
             const token = jwt.sign({ id: user?.id }, "secret", { expiresIn: "2days" });
             res.json({ result: { user, token } });
         }
-        else{
+        else {
             return res.json({ result: { user: null, token: null } });
         }
     })
-    
+
 }
 
 export async function decryptToken(req: Request, res: Response) {
@@ -62,4 +62,34 @@ export async function searchUserById(id: number) {
     const user = users.find((user: any) => user.id === id);
     // if (!user) throw new Error("User not found");
     return user;
+}
+
+export async function createPost(req: Request, res: Response) {
+    const incomingPost = req.body
+    const post = await db.post.create({ data: { title: incomingPost.title, content: incomingPost.content, username: incomingPost.username } })
+    res.status(200).json({ success: true })
+}
+
+export async function getPosts(req: Request, res: Response) {
+    try {
+        const posts = await db.post.findMany()
+        const comments = await db.comment.findMany()
+        const replies = await db.reply.findMany()
+        const postVotes = await db.postVote.findMany()
+        res.json({ posts, comments, replies, postVotes });
+    }
+    catch (err) {
+        res.status(500).json({ msg: err })
+    }
+}
+
+export async function getPost(req: Request, res: Response) {
+    const postId = req.params.postId;
+    const post = await db.post.findUnique({ where: { id: parseInt(postId) } })
+    const comments = await db.comment.findMany({ where: { postId: parseInt(postId) } })
+    const replies = await db.reply.findMany({ where: { postId: parseInt(postId) } })
+    const postVotes = await db.postVote.findMany({ where: { postId: parseInt(postId) } })
+    const commentVotes = await db.commentVote.findMany({ where: { postId: parseInt(postId) } })
+    const replyVotes = await db.replyVote.findMany({ where: { postId: parseInt(postId) } })
+    res.json({ post, comments, replies, postVotes, commentVotes, replyVotes });
 }

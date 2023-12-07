@@ -24,7 +24,7 @@ model Post {
   date      DateTime  @default(now())
   edited    Boolean   @default(false)
   deleted   Boolean   @default(false)
-  authorId  Int
+  username  String
 }
 
 model Comment {
@@ -34,7 +34,7 @@ model Comment {
   edited    Boolean   @default(false)
   deleted   Boolean   @default(false)
   postId    Int
-  authorId  Int
+  username  String
 }
 
 model Reply {
@@ -45,7 +45,7 @@ model Reply {
   deleted   Boolean   @default(false)
   postId    Int
   commentId Int
-  authorId  Int
+  username  String
 }
 
 model PostVote {
