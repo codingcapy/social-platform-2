@@ -93,3 +93,32 @@ export async function getPost(req: Request, res: Response) {
     const replyVotes = await db.replyVote.findMany({ where: { postId: parseInt(postId) } })
     res.json({ post, comments, replies, postVotes, commentVotes, replyVotes });
 }
+
+export async function updatePost(req: Request, res: Response) {
+    const postId = parseInt(req.params.postId)
+    const incomingPost = req.body;
+    const updatedPost = await db.post.update(
+        {
+            where: { id: postId },
+            data: { title: incomingPost.title, content: incomingPost.content, edited: incomingPost.edited, deleted: incomingPost.deleted }
+        });
+    res.status(200).json({ success: true });
+}
+
+export async function createComment(req: Request, res: Response) {
+    const incomingComment = req.body
+    const comment = await db.comment.create({ data: { content: incomingComment.content, postId: incomingComment.postId, username: incomingComment.username } })
+    res.status(200).json({ success: true })
+}
+
+export async function updateComment(req: Request, res: Response) {
+    const commentId = parseInt(req.params.commentId)
+    const incomingComment = req.body;
+    const updatedComment = await db.comment.update(
+        {
+            where: { id: commentId },
+            data: { content: incomingComment.content, edited: incomingComment.edited, deleted:incomingComment.deleted }
+        }
+    );
+    res.status(200).json({ success: true });
+}

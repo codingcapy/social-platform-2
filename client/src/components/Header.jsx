@@ -17,7 +17,7 @@ export default function Header() {
             </div >
             <div className="flex flex-col md:block md:py-5">
                 <NavLink to="/posts" className="text-center py-5 px-5">Posts</NavLink>
-                {user && <NavLink to="posts/create">Create</NavLink>}
+                {user && <NavLink to="posts/create" className="text-center py-5 px-5">Create</NavLink>}
             </div>
             <div className="flex flex-col md:block md:py-5">
                 {!user && <NavLink to="/users/login" className="text-center py-5 px-5">Login</NavLink>}

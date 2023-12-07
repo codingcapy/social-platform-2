@@ -8,10 +8,9 @@ description: posts router for CapySocial
 import express from "express"
 const posts = express.Router()
 
-import { createPost, getPosts, getPost } from "../controller"
+import { createPost, getPosts, getPost, updatePost } from "../controller"
 
 posts.route('/').get(getPosts).post(createPost)
-posts.route('/:postId').get(getPost).post()
-posts.route('/delete/:postId').post()
+posts.route('/:postId').get(getPost).post(updatePost)
 
 export default posts 

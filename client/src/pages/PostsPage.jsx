@@ -9,7 +9,7 @@ description: home page jsx for CapySocial
 import { Link, useLoaderData } from "react-router-dom"
 import axios from "axios"
 import DOMAIN from "../services/endpoint"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function PostsPage() {
 
@@ -17,7 +17,7 @@ export default function PostsPage() {
     const [sortState, setSortState] = useState(
         data.posts.map((post) =>
             <div key={post.id} className="border border-slate-700 rounded-xl px-3 py-3">
-                <Link to={`posts/${post.id}`} className="flex flex-col text-center">
+                <Link to={`/posts/${post.id}`} className="flex flex-col text-center">
                     <p className="py-2">Posted by <strong>{post.username}</strong> on {post.date.toLocaleString()}</p>
                     <p >upvotes: {data.postVotes.filter((postVote) => postVote.postId === post.id).reduce((accumulator, currentValue) => accumulator + currentValue.value, 0)}</p>
                     <h3 className="py-3 text-2xl text-slate-700 font-medium">{post.title}</h3>
@@ -36,7 +36,7 @@ export default function PostsPage() {
         setSortState(
             data.posts.map((post) =>
                 <div key={post.id} className="border border-slate-700 rounded-xl px-3 py-3">
-                    <Link to={`posts/${post.id}`} className="flex flex-col text-center">
+                    <Link to={`/posts/${post.id}`} className="flex flex-col text-center">
                         <p className="py-2">Posted by <strong>{post.username}</strong> on {post.date.toLocaleString()}</p>
                         <p >upvotes: {data.postVotes.filter((postVote) => postVote.postId === post.id).reduce((accumulator, currentValue) => accumulator + currentValue.value, 0)}</p>
                         <h3 className="py-3 text-2xl text-slate-700 font-medium">{post.title}</h3>
@@ -56,7 +56,7 @@ export default function PostsPage() {
         setSortState(
             data.posts.map((post) =>
                 <div key={post.id} className="border border-slate-700 rounded-xl px-3 py-3">
-                    <Link to={`posts/${post.id}`} className="flex flex-col text-center">
+                    <Link to={`/posts/${post.id}`} className="flex flex-col text-center">
                         <p className="py-2">Posted by <strong>{post.username}</strong> on {post.date.toLocaleString()}</p>
                         <p >upvotes: {data.postVotes.filter((postVote) => postVote.postId === post.id).reduce((accumulator, currentValue) => accumulator + currentValue.value, 0)}</p>
                         <h3 className="py-3 text-2xl text-slate-700 font-medium">{post.title}</h3>
@@ -72,7 +72,9 @@ export default function PostsPage() {
             <h1 className="py-5 text-2xl text-slate-700 font-medium text-center">Posts</h1>
             <p className="py-3">Sort By: <button className="px-3" onClick={sortByOldest}>Oldest</button><button onClick={sortByLatest} className="px-3">Latest</button><button className="px-3">Most Popular</button></p>
             <p className="py-3">Sort By: </p>
-            {sortState}
+            <div className="md:grid md:gap-4 md:grid-cols-3 md:grid-rows-3">
+                {sortState}
+            </div>
         </div>
     )
 }
