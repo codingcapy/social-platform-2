@@ -117,7 +117,25 @@ export async function updateComment(req: Request, res: Response) {
     const updatedComment = await db.comment.update(
         {
             where: { id: commentId },
-            data: { content: incomingComment.content, edited: incomingComment.edited, deleted:incomingComment.deleted }
+            data: { content: incomingComment.content, edited: incomingComment.edited, deleted: incomingComment.deleted }
+        }
+    );
+    res.status(200).json({ success: true });
+}
+
+export async function createPostVote(req: Request, res: Response) {
+    const incomingVote = req.body
+    const postVote = await db.postVote.create({ data: { value: incomingVote.value, postId: incomingVote.postId, voterId: incomingVote.voterId } })
+    res.status(200).json({ success: true })
+}
+
+export async function updatePostVote(req: Request, res: Response) {
+    const postVoteId = parseInt(req.params.postVoteId)
+    const incomingPostVote = req.body;
+    const updatedPostVote = await db.postVote.update(
+        {
+            where: { id: postVoteId },
+            data: { value: incomingPostVote.value }
         }
     );
     res.status(200).json({ success: true });

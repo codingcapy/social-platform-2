@@ -6,6 +6,7 @@ import useAuthStore from "../store/AuthStore";
 import { getUserIdFromToken } from "../services/jwt.service";
 import { useState } from "react";
 import { TbArrowBigUp, TbArrowBigDown, TbArrowBigUpFilled, TbArrowBigDownFilled } from 'react-icons/tb'
+import Comment from "../components/Comment";
 
 export default function PostDetailsPage() {
 
@@ -63,25 +64,25 @@ export default function PostDetailsPage() {
     }
 
     async function clickUpvote() {
-        if (!post.postVotes.find((postVote) => postVote.voterId === userId)) {
+        if (!data.postVotes.find((postVote) => postVote.voterId === userId)) {
             const value = 1
             const voterId = userId;
-            const postId = post.post._doc.postId;
+            const postId = data.post.id;
             const vote = { value, postId, voterId };
             const res = await axios.post(`${DOMAIN}/api/votes`, vote);
             if (res?.data.success) {
-                navigate(`/posts/${post.post._doc.postId}`);
+                navigate(`/posts/${data.post.id}`);
             }
         }
-        else if (post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 0 || post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === -1) {
+        else if (data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 0 || post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === -1) {
             const value = 1
             const voterId = userId;
-            const postId = post.postId;
-            const postVoteId = post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].postVoteId;
+            const postId = data.post.id;
+            const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].postVoteId;
             const updatedVote = { value, postId, voterId, postVoteId }
             const res = await axios.post(`${DOMAIN}/api/votes/${postVoteId}`, updatedVote)
             if (res?.data.success) {
-                navigate(`/posts/${post.post._doc.postId}`);
+                navigate(`/posts/${data.post.id}`);
             }
         }
     }
@@ -89,35 +90,35 @@ export default function PostDetailsPage() {
     async function neutralVote() {
         const value = 0
         const voterId = userId;
-        const postId = post.postId;
-        const postVoteId = post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].postVoteId;
+        const postId = data.post.id;
+        const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].postVoteId;
         const updatedVote = { value, postId, voterId, postVoteId }
         const res = await axios.post(`${DOMAIN}/api/votes/${postVoteId}`, updatedVote)
         if (res?.data.success) {
-            navigate(`/posts/${post.post._doc.postId}`);
+            navigate(`/posts/${data.post.id}`);
         }
     }
 
     async function clickDownVote() {
-        if (!post.postVotes.find((postVote) => postVote.voterId === userId)) {
+        if (!data.postVotes.find((postVote) => postVote.voterId === userId)) {
             const value = -1
             const voterId = userId;
-            const postId = post.post._doc.postId;
+            const postId = data.post.id;
             const vote = { value, postId, voterId };
             const res = await axios.post(`${DOMAIN}/api/votes`, vote);
             if (res?.data.success) {
-                navigate(`/posts/${post.post._doc.postId}`);
+                navigate(`/posts/${data.post.id}`);
             }
         }
-        else if (post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 0 || post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 1) {
+        else if (data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 0 || post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 1) {
             const value = -1
             const voterId = userId;
-            const postId = post.postId;
-            const postVoteId = post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].postVoteId;
+            const postId = data.post.id;
+            const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].postVoteId;
             const updatedVote = { value, postId, voterId, postVoteId }
             const res = await axios.post(`${DOMAIN}/api/votes/${postVoteId}`, updatedVote)
             if (res?.data.success) {
-                navigate(`/posts/${post.post._doc.postId}`);
+                navigate(`/posts/${data.post.id}`);
             }
         }
     }
@@ -170,9 +171,7 @@ export default function PostDetailsPage() {
                     </form>}
                     <hr />
                     {data.comments.map((comment) =>
-                        <div>
-                            {comment.content}
-                        </div>)}
+                        <Comment key={comment.id} id={comment.id} username={comment.username} content={comment.content} date={comment.date} edited={comment.edited} deleted={comment.deleted} postId={comment.postId} commentVotes={data.commentVotes.filter((commentVote) => commentVote.commentId === comment.id)} replies={data.replies.filter((reply) => reply.commentId === comment.id)} replyVotes={data.replyVotes.filter((replyVote) => replyVote.commentId === comment.id)} />)}
                 </div>
             }
         </div>

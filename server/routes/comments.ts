@@ -12,6 +12,5 @@ import { createComment, updateComment } from "../controller"
 
 comments.route('/').post(createComment)
 comments.route('/:commentId').post(updateComment)
-comments.route('/delete/:commentId').post(updateComment)
 
 export default comments 
