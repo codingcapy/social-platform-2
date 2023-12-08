@@ -6,11 +6,11 @@ description: post votes router for CapySocial
  */
 
 import express from "express"
-const router = express.Router()
+const postVotes = express.Router()
 
 import { createPostVote, updatePostVote } from "../controller"
 
-router.route('/').post(createPostVote)
-router.route('/:postVoteId').post(updatePostVote)
+postVotes.route('/').post(createPostVote)
+postVotes.route('/:postVoteId').post(updatePostVote)
 
-module.exports = router 
+export default postVotes 

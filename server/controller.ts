@@ -24,9 +24,7 @@ export async function createUser(req: Request, res: Response) {
 
 export async function validateUser(req: Request, res: Response) {
     const { username, password } = req.body
-    console.log(req.body)
     const user = await db.user.findUnique({ where: { username: username } }) as unknown as { id: number; username: string; password: string | undefined; date: Date } | null;
-    console.log(user)
     if (!user) return res.json({ result: { user: null, token: null } });
     bcrypt.compare(password, user?.password || "", function (err, result) {
         if (result === true) {

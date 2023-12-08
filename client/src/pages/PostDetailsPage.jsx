@@ -69,18 +69,18 @@ export default function PostDetailsPage() {
             const voterId = userId;
             const postId = data.post.id;
             const vote = { value, postId, voterId };
-            const res = await axios.post(`${DOMAIN}/api/votes`, vote);
+            const res = await axios.post(`${DOMAIN}/api/postvotes`, vote);
             if (res?.data.success) {
                 navigate(`/posts/${data.post.id}`);
             }
         }
-        else if (data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 0 || post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === -1) {
+        else if (data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 0 || data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === -1) {
             const value = 1
             const voterId = userId;
             const postId = data.post.id;
-            const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].postVoteId;
+            const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].id;
             const updatedVote = { value, postId, voterId, postVoteId }
-            const res = await axios.post(`${DOMAIN}/api/votes/${postVoteId}`, updatedVote)
+            const res = await axios.post(`${DOMAIN}/api/postvotes/${postVoteId}`, updatedVote)
             if (res?.data.success) {
                 navigate(`/posts/${data.post.id}`);
             }
@@ -91,9 +91,9 @@ export default function PostDetailsPage() {
         const value = 0
         const voterId = userId;
         const postId = data.post.id;
-        const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].postVoteId;
+        const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].id;
         const updatedVote = { value, postId, voterId, postVoteId }
-        const res = await axios.post(`${DOMAIN}/api/votes/${postVoteId}`, updatedVote)
+        const res = await axios.post(`${DOMAIN}/api/postvotes/${postVoteId}`, updatedVote)
         if (res?.data.success) {
             navigate(`/posts/${data.post.id}`);
         }
@@ -105,18 +105,18 @@ export default function PostDetailsPage() {
             const voterId = userId;
             const postId = data.post.id;
             const vote = { value, postId, voterId };
-            const res = await axios.post(`${DOMAIN}/api/votes`, vote);
+            const res = await axios.post(`${DOMAIN}/api/postvotes`, vote);
             if (res?.data.success) {
                 navigate(`/posts/${data.post.id}`);
             }
         }
-        else if (data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 0 || post.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 1) {
+        else if (data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 0 || data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 1) {
             const value = -1
             const voterId = userId;
             const postId = data.post.id;
-            const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].postVoteId;
+            const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].id;
             const updatedVote = { value, postId, voterId, postVoteId }
-            const res = await axios.post(`${DOMAIN}/api/votes/${postVoteId}`, updatedVote)
+            const res = await axios.post(`${DOMAIN}/api/postvotes/${postVoteId}`, updatedVote)
             if (res?.data.success) {
                 navigate(`/posts/${data.post.id}`);
             }
@@ -147,13 +147,13 @@ export default function PostDetailsPage() {
                     <p>Posted by <strong>{data.post.username}</strong> on {data.post.date} {data.post.edited && "(edited)"}</p>
                     <h2 className="py-5 text-2xl text-slate-700 font-medium text-center">{data.post.title}</h2>
                     {user?.username !== data.post.username
-                        ? data.postVotes.find((postVote) => postVote.voterId === userId) !== undefined && post.postVotes.find((postVote) => postVote.voterId === userId).value > 0
+                        ? data.postVotes.find((postVote) => postVote.voterId === userId) !== undefined && data.postVotes.find((postVote) => postVote.voterId === userId).value > 0
                             ? user && <div onClick={neutralVote} className=""><TbArrowBigUpFilled size={25} /></div>
                             : user && <div onClick={clickUpvote} className=""><TbArrowBigUp size={25} /></div>
                         : ""}
-                    <p>Upvotes: {data.postVotes.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0)}</p>
+                    <p className="px-2"> {data.postVotes.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0)}</p>
                     {user?.username !== data.post.username
-                        ? data.postVotes.find((postVote) => postVote.voterId === userId) !== undefined && post.postVotes.find((postVote) => postVote.voterId === userId).value < 0
+                        ? data.postVotes.find((postVote) => postVote.voterId === userId) !== undefined && data.postVotes.find((postVote) => postVote.voterId === userId).value < 0
                             ? user && <div onClick={neutralVote} className=""><TbArrowBigDownFilled size={25} /></div>
                             : user && <div onClick={clickDownVote} className=""><TbArrowBigDown size={25} /></div>
                         : ""}
