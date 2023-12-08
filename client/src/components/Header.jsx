@@ -28,7 +28,7 @@ export default function Header() {
     return (
         <header className="sticky z-50 top-0 md:flex justify-between bg-slate-700 text-white">
             {expandedMenu && <div className="flex flex-col md:flex-row">
-                <NavLink to="/" className="text-center py-5 px-5">CapySocial2</NavLink>
+                <NavLink to="/" className="text-center py-5 px-5">CocoDog</NavLink>
                 <NavLink to="/" className="flex py-2 md:py-5 mx-auto"><IoHomeSharp size={20} className=" text-center mx-2"/> Home</NavLink>
             </div >}
             {expandedMenu && <div>
