@@ -8,7 +8,7 @@ description: Post details page for CapySocial2
 
 import axios from "axios"
 import DOMAIN from "../services/endpoint";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, Link } from "react-router-dom";
 import useAuthStore from "../store/AuthStore";
 import { getUserIdFromToken } from "../services/jwt.service";
 import { useState } from "react";
@@ -151,13 +151,15 @@ export default function PostDetailsPage() {
                         ? data.postVotes.find((postVote) => postVote.voterId === userId) !== undefined && data.postVotes.find((postVote) => postVote.voterId === userId).value > 0
                             ? user && <div onClick={neutralVote} className=""><TbArrowBigUpFilled size={25} /></div>
                             : user && <div onClick={clickUpvote} className=""><TbArrowBigUp size={25} /></div>
-                        : ""}
+                        : <TbArrowBigUp size={25} />}
+                        {!user && <Link to={"/users/login"}><TbArrowBigUp size={25} /></Link>}
                     <p className="px-2"> {data.postVotes.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0)}</p>
                     {user?.username !== data.post.username
                         ? data.postVotes.find((postVote) => postVote.voterId === userId) !== undefined && data.postVotes.find((postVote) => postVote.voterId === userId).value < 0
                             ? user && <div onClick={neutralVote} className=""><TbArrowBigDownFilled size={25} /></div>
                             : user && <div onClick={clickDownVote} className=""><TbArrowBigDown size={25} /></div>
-                        : ""}
+                        : <TbArrowBigDown size={25} />}
+                        {!user && <Link to={"/users/login"}><TbArrowBigDown size={25} /></Link>}
                     <p className="py-3">{data.post.content}</p>
                     {data.post.deleted ? "" : user?.username === data.post.username && <button onClick={toggleEditMode} className="px-3 py-3 font-bold">Edit</button>}
                     {data.post.deleted ? "" : user?.username === data.post.username && <button onClick={handleDeletePost} className="px-3 font-bold">Delete</button>}
