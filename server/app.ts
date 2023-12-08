@@ -8,6 +8,7 @@ import comments from "./routes/comments"
 import replies from "./routes/replies"
 import postVotes from "./routes/postVotes"
 import commentVotes from "./routes/commentVotes"
+import replyVotes from "./routes/replyVotes"
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -26,5 +27,6 @@ app.use("/api/comments", comments)
 app.use("/api/postvotes", postVotes)
 app.use("/api/commentvotes", commentVotes)
 app.use("/api/replies", replies)
+app.use("/api/replyvotes", replyVotes)
 
 app.listen(port, () => console.log(`Server listening on port: ${port}`))

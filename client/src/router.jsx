@@ -5,7 +5,7 @@ import HomePage, { pageLoader } from "./pages/HomePage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import PostsPage, { postsLoader } from "./pages/PostsPage";
-import ProfilePage from "./pages/ProfilePage";
+import ProfilePage, { userPostsLoader } from "./pages/ProfilePage";
 import CreatePostPage from "./pages/CreatePostPage";
 import PostDetailsPage, { postDetailsLoader } from "./pages/PostDetailsPage";
 
@@ -18,7 +18,7 @@ export function Router() {
                 <Route path="/posts/:postId" element={<PostDetailsPage />} loader={postDetailsLoader}/>
                 <Route path="/users/login" element={<LoginPage />} />
                 <Route path="/users/signup" element={<SignupPage />} />
-                <Route path="/users/:id" element={<ProfilePage />} />
+                <Route path="/users/:userId" element={<ProfilePage />} loader={userPostsLoader} />
                 <Route path="/posts/create" element={<CreatePostPage />} />
             </Route>
         )

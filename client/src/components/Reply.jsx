@@ -30,7 +30,7 @@ export default function Reply(props) {
         const edited = true;
         const deleted = false;
         const updatedReply = { content, edited, deleted };
-        const res = await axios.post(`${DOMAIN}/api/comments/${props.id}`, updatedReply)
+        const res = await axios.post(`${DOMAIN}/api/replies/${props.id}`, updatedReply)
         toggleReplyEditMode()
         if (res?.data.success) {
             navigate(`/posts/${props.postId}`)
@@ -42,7 +42,7 @@ export default function Reply(props) {
         const edited = false;
         const deleted = true;
         const updatedReply = { content, edited, deleted };
-        const res = await axios.post(`${DOMAIN}/api/comments/${props.id}`, updatedReply)
+        const res = await axios.post(`${DOMAIN}/api/replies/${props.id}`, updatedReply)
         if (res?.data.success) {
             navigate(`/posts/${props.postId}`)
         }
@@ -91,7 +91,7 @@ export default function Reply(props) {
         const value = 0
         const replyVoteId = props.replyVotes.filter((replyVote) => replyVote.voterId === parseInt(userId))[0].id;
         const updatedVote = { value }
-        const res = await axios.post(`${DOMAIN}/api/commentvotes/${replyVoteId}`, updatedVote)
+        const res = await axios.post(`${DOMAIN}/api/replyvotes/${replyVoteId}`, updatedVote)
         if (res?.data.success) {
             navigate(`/posts/${props.postId}`);
         }
@@ -105,7 +105,7 @@ export default function Reply(props) {
             const replyId = props.id
             const voterId = userId;
             const vote = { value, postId, commentId, replyId, voterId, };
-            const res = await axios.post(`${DOMAIN}/api/commentvotes`, vote);
+            const res = await axios.post(`${DOMAIN}/api/replyvotes`, vote);
             if (res?.data.success) {
                 navigate(`/posts/${props.postId}`);
             }
@@ -114,7 +114,7 @@ export default function Reply(props) {
             const value = -1
             const replyVoteId = props.replyVotes.filter((replyVote) => replyVote.voterId === parseInt(userId))[0].id;
             const updatedVote = { value }
-            const res = await axios.post(`${DOMAIN}/api/commentvotes/${replyVoteId}`, updatedVote)
+            const res = await axios.post(`${DOMAIN}/api/replyvotes/${replyVoteId}`, updatedVote)
             if (res?.data.success) {
                 navigate(`/posts/${props.postId}`);
             }
@@ -124,7 +124,17 @@ export default function Reply(props) {
     return (
         <div className="ml-5 pl-2 my-3 border border-cyan-400 border-t-0 border-l-2 border-r-0 border-b-0">
             <p className="py-2"><strong>{props.username}</strong> {props.date} {props.edited && '(edited)'}</p>
-            <p className="py-2">{props.content}</p>
+            {replyEditMode
+                ? <form onSubmit={handleEditReply}>
+                    <input type="text" name="content" id="content" value={editedContent} onChange={(e) => setEditedContent(e.target.value)} className="px-2 py-1 border rounded-lg border-slate-700" required />
+                    <button type="submit" className="px-3 font-bold">Update</button>
+                    <button onClick={toggleReplyEditMode} className="px-3 font-bold">Cancel</button>
+                </form>
+                : <div>
+                    <p className="py-2">{props.content} {props.deleted ? "" : props.username === user?.username && <button onClick={toggleReplyEditMode} className="font-bold">Edit</button>}
+                        {props.deleted ? "" : props.username === user?.username && <button onClick={handleDeleteReply} className="px-3 font-bold">Delete</button>}</p>
+                </div>}
+
             <p className="">Upvotes: {props.replyVotes.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0)}
                 {user?.username !== props.username
                     ? props.replyVotes.find((replyVote) => replyVote.voterId === userId) !== undefined && props.replyVotes.find((replyVote) => replyVote.voterId === userId).value > 0
@@ -138,6 +148,13 @@ export default function Reply(props) {
                     : ""}
                 {userId && <button onClick={toggleReplyMode} className="px-3 font-bold">Reply</button>}
             </p>
+            {replyMode && <div>
+                <form onSubmit={handleReplySubmit}>
+                    <input type="text" name="content" id="content" className="px-2 py-1 border rounded-lg border-slate-700" required />
+                    <p><button type="submit" className="px-3 font-bold">Reply</button>
+                        <button className="px-3 font-bold" onClick={toggleReplyMode}>Cancel</button></p>
+                </form>
+            </div>}
         </div>
     )
 }

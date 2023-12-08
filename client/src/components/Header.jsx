@@ -1,12 +1,14 @@
 
 import { NavLink } from "react-router-dom"
 import useAuthStore from "../store/AuthStore"
-
+import { RxMagnifyingGlass } from "react-icons/rx";
 import { getUserIdFromToken } from "../services/jwt.service"
+import useSearchStore from "../store/SearchStore"
 
 export default function Header() {
 
     const { logoutService, user } = useAuthStore((state) => state)
+    const { content, setContent } = useSearchStore((state) => state)
     const userId = getUserIdFromToken()
 
     return (
@@ -15,7 +17,11 @@ export default function Header() {
                 <NavLink to="/" className="text-center py-5 px-5">CapySocial2</NavLink>
                 <NavLink to="/" className="text-center py-5 px-5">Home</NavLink>
             </div >
+            <div>
+                <div className="flex px-2 my-3 border rounded-lg border-white py-1 "><RxMagnifyingGlass size={25} className="" /> <input type="text" className="bg-transparent text-white focus:outline-none" placeholder="Search CapySocial" onChange={(e) => setContent(e.target.value)} /></div>
+            </div>
             <div className="flex flex-col md:block md:py-5">
+
                 <NavLink to="/posts" className="text-center py-5 px-5">Posts</NavLink>
                 {user && <NavLink to="posts/create" className="text-center py-5 px-5">Create</NavLink>}
             </div>

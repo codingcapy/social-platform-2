@@ -62,6 +62,29 @@ export async function searchUserById(id: number) {
     return user;
 }
 
+export async function getUser(req: Request, res: Response) {
+    const userId = req.params.userId;
+    const user = await db.user.findUnique({ where: { id: parseInt(userId) } })
+    const userPosts = await db.post.findMany({ where: { username: user?.username } })
+    const userComments = await db.comment.findMany({ where: { username: user?.username } })
+    const userReplies = await db.reply.findMany({ where: { username: user?.username } })
+    res.json({ user, userPosts, userComments, userReplies });
+}
+
+export async function updateUser(req: Request, res: Response) {
+    const userId = req.params.userId
+    const incomingUser = await req.body;
+    const incomingPassword = incomingUser.password
+    const encrypted = await bcrypt.hash(incomingPassword, saltRounds)
+    const updatedUser = await db.user.update(
+        {
+            where: { id: parseInt(userId) },
+            data: { password: encrypted }
+        }
+    );
+    res.status(200).json({ success: true });
+}
+
 export async function createPost(req: Request, res: Response) {
     const incomingPost = req.body
     const post = await db.post.create({ data: { title: incomingPost.title, content: incomingPost.content, username: incomingPost.username } })
@@ -121,6 +144,24 @@ export async function updateComment(req: Request, res: Response) {
     res.status(200).json({ success: true });
 }
 
+export async function createReply(req: Request, res: Response) {
+    const incomingReply = req.body
+    const reply = await db.reply.create({ data: { content: incomingReply.content, postId: incomingReply.postId, commentId: incomingReply.commentId, username: incomingReply.username } })
+    res.status(200).json({ success: true })
+}
+
+export async function updateReply(req: Request, res: Response) {
+    const replyId = parseInt(req.params.replyId)
+    const incomingReply = req.body;
+    const updatedReply = await db.reply.update(
+        {
+            where: { id: replyId },
+            data: { content: incomingReply.content, edited: incomingReply.edited, deleted: incomingReply.deleted }
+        }
+    );
+    res.status(200).json({ success: true });
+}
+
 export async function createPostVote(req: Request, res: Response) {
     const incomingVote = req.body
     const postVote = await db.postVote.create({ data: { value: incomingVote.value, postId: incomingVote.postId, voterId: incomingVote.voterId } })
@@ -157,19 +198,19 @@ export async function updateCommentVote(req: Request, res: Response) {
     res.status(200).json({ success: true });
 }
 
-export async function createReply(req: Request, res: Response) {
-    const incomingReply = req.body
-    const reply = await db.reply.create({ data: { content: incomingReply.content, postId: incomingReply.postId, commentId: incomingReply.commentId, username: incomingReply.username } })
+export async function createReplyVote(req: Request, res: Response) {
+    const incomingVote = req.body
+    const replyVote = await db.replyVote.create({ data: { value: incomingVote.value, postId: incomingVote.postId, commentId: incomingVote.commentId, replyId: incomingVote.replyId, voterId: incomingVote.voterId } })
     res.status(200).json({ success: true })
 }
 
-export async function updateReply(req: Request, res: Response) {
-    const replyId = parseInt(req.params.replyId)
-    const incomingReply = req.body;
-    const updatedReply = await db.reply.update(
+export async function updateReplyVote(req: Request, res: Response) {
+    const replyVoteId = parseInt(req.params.replyVoteId)
+    const incomingReplyVote = req.body;
+    const updatedReplyVote = await db.replyVote.update(
         {
-            where: { id: replyId },
-            data: { content: incomingReply.content, edited: incomingReply.edited, deleted: incomingReply.deleted }
+            where: { id: replyVoteId },
+            data: { value: incomingReplyVote.value }
         }
     );
     res.status(200).json({ success: true });
