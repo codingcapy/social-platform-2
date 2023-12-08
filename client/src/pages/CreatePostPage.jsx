@@ -1,8 +1,9 @@
+
 /*
 author: Paul Kim
-date: December 6, 2023
+date: December 8, 2023
 version: 1.0
-description: create post page jsx for CapySocial2
+description: Create post page for CapySocial2
  */
 
 import { useNavigate } from "react-router-dom"
@@ -15,7 +16,7 @@ import useAuthStore from "../store/AuthStore";
 export default function CreatePostPage() {
 
     const navigate = useNavigate();
-    const {user} = useAuthStore((state)=>state)
+    const { user } = useAuthStore((state) => state)
 
     async function handleSubmit(e) {
         e.preventDefault()

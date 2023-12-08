@@ -1,4 +1,11 @@
 
+/*
+author: Paul Kim
+date: December 8, 2023
+version: 1.0
+description: web server for CapySocial2
+ */
+
 import express from "express"
 import cors from "cors"
 import users from "./routes/users"

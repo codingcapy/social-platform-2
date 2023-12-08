@@ -1,4 +1,11 @@
 
+/*
+author: Paul Kim
+date: December 8, 2023
+version: 1.0
+description: Signup page for CapySocial2
+ */
+
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DOMAIN from "../services/endpoint"
@@ -20,7 +27,7 @@ export default function SignupPage() {
             setMessage(res?.data.message)
             navigate("/users/login")
         }
-        else{
+        else {
             setMessage(res?.data.message)
         }
     }

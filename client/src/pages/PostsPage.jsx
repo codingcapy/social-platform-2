@@ -1,9 +1,9 @@
 
 /*
 author: Paul Kim
-date: November 13, 2023
+date: December 8, 2023
 version: 1.0
-description: home page jsx for CapySocial
+description: Posts page for CapySocial2
  */
 
 import { Link, useLoaderData } from "react-router-dom"

@@ -1,4 +1,11 @@
 
+/*
+author: Paul Kim
+date: December 8, 2023
+version: 1.0
+description: Login page for CapySocial2
+ */
+
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";

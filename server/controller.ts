@@ -1,4 +1,11 @@
 
+/*
+author: Paul Kim
+date: December 8, 2023
+version: 1.0
+description: controller for CapySocial2
+ */
+
 import { Request, Response } from "express";
 import { db } from "./db/connect";
 import jwt from "jsonwebtoken";

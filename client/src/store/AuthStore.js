@@ -1,9 +1,9 @@
 
 /*
 author: Paul Kim
-date: November 13, 2023
+date: December 8, 2023
 version: 1.0
-description: authstore for social platform 2 project
+description: AuthStore for CapySocial2
  */
 
 import DOMAIN from "../services/endpoint";

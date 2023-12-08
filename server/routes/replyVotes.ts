@@ -1,8 +1,9 @@
+
 /*
 author: Paul Kim
-date: November 13, 2023
+date: December 8, 2023
 version: 1.0
-description: nested comment votes replyVotes for CapySocial
+description: replyVotes router for CapySocial2
  */
 
 import express from "express"

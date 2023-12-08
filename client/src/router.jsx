@@ -1,4 +1,11 @@
 
+/*
+author: Paul Kim
+date: December 8, 2023
+version: 1.0
+description: router for CapySocial2
+ */
+
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import Layout from "./Layout";
 import HomePage, { pageLoader } from "./pages/HomePage";
@@ -15,7 +22,7 @@ export function Router() {
             <Route element={<Layout />}>
                 <Route path="/" element={<HomePage />} loader={pageLoader} />
                 <Route path="/posts" element={<PostsPage />} loader={postsLoader} />
-                <Route path="/posts/:postId" element={<PostDetailsPage />} loader={postDetailsLoader}/>
+                <Route path="/posts/:postId" element={<PostDetailsPage />} loader={postDetailsLoader} />
                 <Route path="/users/login" element={<LoginPage />} />
                 <Route path="/users/signup" element={<SignupPage />} />
                 <Route path="/users/:userId" element={<ProfilePage />} loader={userPostsLoader} />

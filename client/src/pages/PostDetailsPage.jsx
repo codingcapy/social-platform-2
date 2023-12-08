@@ -1,4 +1,11 @@
 
+/*
+author: Paul Kim
+date: December 8, 2023
+version: 1.0
+description: Post details page for CapySocial2
+ */
+
 import axios from "axios"
 import DOMAIN from "../services/endpoint";
 import { useLoaderData, useNavigate } from "react-router-dom";

@@ -1,4 +1,10 @@
 
+/*
+author: Paul Kim
+date: December 8, 2023
+version: 1.0
+description: users router for CapySocial2
+ */
 
 import express from "express"
 const users = express.Router()

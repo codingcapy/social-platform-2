@@ -1,3 +1,11 @@
+
+/*
+author: Paul Kim
+date: December 8, 2023
+version: 1.0
+description: Profile page for CapySocial2
+ */
+
 import DOMAIN from "../services/endpoint";
 import axios from "axios"
 import useAuthStore from "../store/AuthStore";
@@ -6,15 +14,15 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { getUserIdFromToken } from "../services/jwt.service";
 
-export default function ProfilePage(){
+export default function ProfilePage() {
 
     const { user } = useAuthStore((state) => state);
     const [editMode, setEditMode] = useState(false)
-    const [ message, setMessage ] = useState("");
+    const [message, setMessage] = useState("");
     const data = useLoaderData();
     const navigate = useNavigate();
 
-    function toggleEditMode(){
+    function toggleEditMode() {
         setEditMode(!editMode)
     }
 
@@ -31,7 +39,7 @@ export default function ProfilePage(){
         }
     }
 
-    return(
+    return (
         <div>
             <h2 className="py-10 text-2xl text-slate-700 font-medium">Your Profile</h2>
             <p>Username: {data.user.username}</p>
@@ -43,7 +51,7 @@ export default function ProfilePage(){
                 </form>
                 :
                 <button className="rounded-xl my-5 py-2 px-2 bg-slate-700 text-white" onClick={toggleEditMode}>Change password</button>}
-                <p>{message}</p>
+            <p>{message}</p>
             <h2 className="py-5 text-2xl text-slate-700 font-medium">Your Posts</h2>
             {data.userPosts.length === 0 ? <p>You haven't posted anything yet!</p> : data.userPosts.map((post) => <div key={post.Id} className="py-3">
                 <Link to={`/posts/${post.id.toString()}`} className="">

@@ -1,9 +1,9 @@
 
 /*
 author: Paul Kim
-date: November 13, 2023
+date: December 8, 2023
 version: 1.0
-description: jwt service for social platform 2 project
+description: jwt service for CapySocial2
  */
 
 import axios from "axios";

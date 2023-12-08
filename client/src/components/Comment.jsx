@@ -1,4 +1,11 @@
 
+/*
+author: Paul Kim
+date: December 8, 2023
+version: 1.0
+description: Comment component for CapySocial2
+ */
+
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { getUserIdFromToken } from "../services/jwt.service";

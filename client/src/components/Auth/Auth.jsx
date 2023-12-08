@@ -1,9 +1,9 @@
 
 /*
 author: Paul Kim
-date: November 13, 2023
+date: December 8, 2023
 version: 1.0
-description: auth component jsx for CapySocial
+description: Auth component for CapySocial2
  */
 
 import { jwtDecode } from "jwt-decode";
