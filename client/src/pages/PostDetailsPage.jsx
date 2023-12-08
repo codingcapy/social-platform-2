@@ -76,10 +76,8 @@ export default function PostDetailsPage() {
         }
         else if (data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 0 || data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === -1) {
             const value = 1
-            const voterId = userId;
-            const postId = data.post.id;
             const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].id;
-            const updatedVote = { value, postId, voterId, postVoteId }
+            const updatedVote = { value }
             const res = await axios.post(`${DOMAIN}/api/postvotes/${postVoteId}`, updatedVote)
             if (res?.data.success) {
                 navigate(`/posts/${data.post.id}`);
@@ -89,10 +87,8 @@ export default function PostDetailsPage() {
 
     async function neutralVote() {
         const value = 0
-        const voterId = userId;
-        const postId = data.post.id;
         const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].id;
-        const updatedVote = { value, postId, voterId, postVoteId }
+        const updatedVote = { value }
         const res = await axios.post(`${DOMAIN}/api/postvotes/${postVoteId}`, updatedVote)
         if (res?.data.success) {
             navigate(`/posts/${data.post.id}`);
@@ -112,10 +108,8 @@ export default function PostDetailsPage() {
         }
         else if (data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 0 || data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].value === 1) {
             const value = -1
-            const voterId = userId;
-            const postId = data.post.id;
             const postVoteId = data.postVotes.filter((postVote) => postVote.voterId === parseInt(userId))[0].id;
-            const updatedVote = { value, postId, voterId, postVoteId }
+            const updatedVote = { value }
             const res = await axios.post(`${DOMAIN}/api/postvotes/${postVoteId}`, updatedVote)
             if (res?.data.success) {
                 navigate(`/posts/${data.post.id}`);

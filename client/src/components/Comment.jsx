@@ -54,7 +54,7 @@ export default function Comment(props) {
         const content = e.target.content.value;
         const postId = props.postId;
         const commentId = props.id;
-        const username = user.username;
+        const username = user?.username;
         const newComment = { content, postId, commentId, username };
         const res = await axios.post(`${DOMAIN}/api/replies`, newComment);
         toggleReplyMode()
@@ -78,11 +78,8 @@ export default function Comment(props) {
         }
         else if (props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].value === 0 || props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].value === -1) {
             const value = 1
-            const voterId = userId;
-            const commentId = props.id
-            const postId = props.postId;
             const commentVoteId = props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].id;
-            const updatedVote = { value, postId, commentId, voterId, commentVoteId }
+            const updatedVote = { value }
             const res = await axios.post(`${DOMAIN}/api/commentvotes/${commentVoteId}`, updatedVote)
             if (res?.data.success) {
                 navigate(`/posts/${props.postId}`);
@@ -92,11 +89,8 @@ export default function Comment(props) {
 
     async function neutralVote() {
         const value = 0
-        const voterId = userId;
-        const postId = props.postId;
-        const commentId = props.id;
         const commentVoteId = props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].id;
-        const updatedVote = { value, postId, commentId, voterId, commentVoteId }
+        const updatedVote = { value }
         const res = await axios.post(`${DOMAIN}/api/commentvotes/${commentVoteId}`, updatedVote)
         if (res?.data.success) {
             navigate(`/posts/${props.postId}`);
@@ -117,11 +111,8 @@ export default function Comment(props) {
         }
         else if (props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].value === 0 || props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].value === 1) {
             const value = -1
-            const voterId = userId;
-            const commentId = props.id
-            const postId = props.postId;
             const commentVoteId = props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].id;
-            const updatedVote = { value, postId, commentId, voterId, commentVoteId }
+            const updatedVote = { value }
             const res = await axios.post(`${DOMAIN}/api/commentvotes/${commentVoteId}`, updatedVote)
             if (res?.data.success) {
                 navigate(`/posts/${props.postId}`);
@@ -139,18 +130,18 @@ export default function Comment(props) {
                         <button onClick={toggleCommentEditMode} className="px-3 font-bold">Cancel</button></p>
                 </form>
                 : <div>
-                    <p className="py-2">{props.content} {props.deleted ? "" : props.username === user.username && <button onClick={toggleCommentEditMode} className="font-bold">Edit</button>}
-                        {props.deleted ? "" : props.username === user.username && <button onClick={handleDeleteComment} className="px-3 font-bold">Delete</button>}</p>
+                    <p className="py-2">{props.content} {props.deleted ? "" : props.username === user?.username && <button onClick={toggleCommentEditMode} className="font-bold">Edit</button>}
+                        {props.deleted ? "" : props.username === user?.username && <button onClick={handleDeleteComment} className="px-3 font-bold">Delete</button>}</p>
 
                 </div>
             }
             <p className="">Upvotes: {props.commentVotes.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0)}
-                {user.username !== props.username
+                {user?.username !== props.username
                     ? props.commentVotes.find((commentVote) => commentVote.voterId === userId) !== undefined && props.commentVotes.find((commentVote) => commentVote.voterId === userId).value > 0
                         ? userId && <button onClick={neutralVote} className="px-1"><TbArrowBigUpFilled size={20} /></button>
                         : userId && <button onClick={clickUpvote} className="px-1"><TbArrowBigUp size={20} /></button>
                     : ""}
-                {user.username !== props.username
+                {user?.username !== props.username
                     ? props.commentVotes.find((commentVote) => commentVote.voterId === userId) !== undefined && props.commentVotes.find((commentVote) => commentVote.voterId === userId).value < 0
                         ? userId && <button onClick={neutralVote} className="px-1"><TbArrowBigDownFilled size={20} /></button>
                         : userId && <button onClick={clickDownVote} className="px-1"><TbArrowBigDown size={20} /></button>

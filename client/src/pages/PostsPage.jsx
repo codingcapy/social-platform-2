@@ -71,7 +71,6 @@ export default function PostsPage() {
         <div>
             <h1 className="py-5 text-2xl text-slate-700 font-medium text-center">Posts</h1>
             <p className="py-3">Sort By: <button className="px-3" onClick={sortByOldest}>Oldest</button><button onClick={sortByLatest} className="px-3">Latest</button><button className="px-3">Most Popular</button></p>
-            <p className="py-3">Sort By: </p>
             <div className="md:grid md:gap-4 md:grid-cols-3 md:grid-rows-3">
                 {sortState}
             </div>
