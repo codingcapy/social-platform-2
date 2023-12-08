@@ -6,6 +6,7 @@ import useAuthStore from "../store/AuthStore";
 import axios from "axios"
 import DOMAIN from "../services/endpoint";
 import { TbArrowBigUp, TbArrowBigDown, TbArrowBigUpFilled, TbArrowBigDownFilled } from 'react-icons/tb'
+import Reply from "./Reply";
 
 export default function Comment(props) {
 
@@ -51,11 +52,11 @@ export default function Comment(props) {
     async function handleReplySubmit(e) {
         e.preventDefault()
         const content = e.target.content.value;
-        const postId = props.postid;
-        const commentId = props.commentId;
+        const postId = props.postId;
+        const commentId = props.id;
         const username = user.username;
         const newComment = { content, postId, commentId, username };
-        const res = await axios.post(`${DOMAIN}/api/reply`, newComment);
+        const res = await axios.post(`${DOMAIN}/api/replies`, newComment);
         toggleReplyMode()
         if (res?.data.success) {
             e.target.content.value = "";
@@ -67,7 +68,7 @@ export default function Comment(props) {
         if (!props.commentVotes.find((commentVote) => commentVote.voterId === userId)) {
             const value = 1
             const voterId = userId;
-            const commentId = props.commentId
+            const commentId = props.id
             const postId = props.postId;
             const vote = { value, postId, commentId, voterId, };
             const res = await axios.post(`${DOMAIN}/api/commentvotes`, vote);
@@ -78,9 +79,9 @@ export default function Comment(props) {
         else if (props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].value === 0 || props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].value === -1) {
             const value = 1
             const voterId = userId;
-            const commentId = props.commentId
+            const commentId = props.id
             const postId = props.postId;
-            const commentVoteId = props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].commentVoteId;
+            const commentVoteId = props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].id;
             const updatedVote = { value, postId, commentId, voterId, commentVoteId }
             const res = await axios.post(`${DOMAIN}/api/commentvotes/${commentVoteId}`, updatedVote)
             if (res?.data.success) {
@@ -93,8 +94,8 @@ export default function Comment(props) {
         const value = 0
         const voterId = userId;
         const postId = props.postId;
-        const commentId = props.commentId;
-        const commentVoteId = props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].commentVoteId;
+        const commentId = props.id;
+        const commentVoteId = props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].id;
         const updatedVote = { value, postId, commentId, voterId, commentVoteId }
         const res = await axios.post(`${DOMAIN}/api/commentvotes/${commentVoteId}`, updatedVote)
         if (res?.data.success) {
@@ -106,7 +107,7 @@ export default function Comment(props) {
         if (!props.commentVotes.find((commentVote) => commentVote.voterId === userId)) {
             const value = -1
             const voterId = userId;
-            const commentId = props.commentId
+            const commentId = props.id
             const postId = props.postId;
             const vote = { value, postId, commentId, voterId, };
             const res = await axios.post(`${DOMAIN}/api/commentvotes`, vote);
@@ -117,9 +118,9 @@ export default function Comment(props) {
         else if (props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].value === 0 || props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].value === 1) {
             const value = -1
             const voterId = userId;
-            const commentId = props.commentId
+            const commentId = props.id
             const postId = props.postId;
-            const commentVoteId = props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].commentVoteId;
+            const commentVoteId = props.commentVotes.filter((commentVote) => commentVote.voterId === parseInt(userId))[0].id;
             const updatedVote = { value, postId, commentId, voterId, commentVoteId }
             const res = await axios.post(`${DOMAIN}/api/commentvotes/${commentVoteId}`, updatedVote)
             if (res?.data.success) {
@@ -129,7 +130,7 @@ export default function Comment(props) {
     }
 
     return (
-        <div className="py-3">
+        <div className="my-3">
             <p className="py-2"><strong>{props.username}</strong> {props.date} {props.edited && '(edited)'}</p>
             {commentEditMode
                 ? <form onSubmit={handleEditComment}>
@@ -139,8 +140,8 @@ export default function Comment(props) {
                 </form>
                 : <div>
                     <p className="py-2">{props.content} {props.deleted ? "" : props.username === user.username && <button onClick={toggleCommentEditMode} className="font-bold">Edit</button>}
-                    {props.deleted ? "" : props.username === user.username && <button onClick={handleDeleteComment} className="px-3 font-bold">Delete</button>}</p>
-                    
+                        {props.deleted ? "" : props.username === user.username && <button onClick={handleDeleteComment} className="px-3 font-bold">Delete</button>}</p>
+
                 </div>
             }
             <p className="">Upvotes: {props.commentVotes.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0)}
@@ -156,6 +157,16 @@ export default function Comment(props) {
                     : ""}
                 {userId && <button onClick={toggleReplyMode} className="px-3 font-bold">Reply</button>}
             </p>
+            {replyMode && <div>
+                <form onSubmit={handleReplySubmit}>
+                    <input type="text" name="content" id="content" className="px-2 py-1 border rounded-lg border-slate-700" required />
+                    <p><button type="submit" className="px-3 font-bold">Reply</button>
+                        <button className="px-3 font-bold" onClick={toggleReplyMode}>Cancel</button></p>
+                </form>
+            </div>}
+            <div>
+                {props.replies.map((reply) => <Reply key={reply.id} id={reply.id} content={reply.content} date={reply.date} edited={reply.edited} deleted={reply.deleted} postId={reply.postId} commentId={reply.commentId} username={reply.username} replyVotes={props.replyVotes.filter((replyVote) => replyVote.replyId === reply.id)} />)}
+            </div>
         </div>
     )
 }

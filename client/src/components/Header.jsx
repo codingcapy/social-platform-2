@@ -22,7 +22,7 @@ export default function Header() {
             <div className="flex flex-col md:block md:py-5">
                 {!user && <NavLink to="/users/login" className="text-center py-5 px-5">Login</NavLink>}
                 {!user && <NavLink to="/users/signup" className="text-center py-5 px-5" >Signup</NavLink>}
-                {user && <span><NavLink to={`users/${userId.toString()}`} className="text-center py-5 px-5">{user.username}</NavLink></span>}
+                {user && <NavLink to={`users/${userId.toString()}`} className="text-center py-5 px-5">{user.username}</NavLink>}
                 {user && <NavLink to="/" onClick={logoutService} className="text-center py-5 px-5">Logout</NavLink>}
             </div>
         </header>
