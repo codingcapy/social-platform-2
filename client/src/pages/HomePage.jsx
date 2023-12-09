@@ -118,7 +118,7 @@ export default function HomePage() {
         <div>
             <h1 className="py-5 text-2xl text-slate-700 font-medium text-center">CocoDog Home</h1>
             <p className="py-3">Sort By: <button className="px-3 font-bold" onClick={sortByOldest}>Oldest</button><button onClick={sortByLatest} className="px-3 font-bold">Latest</button><button className="px-3 font-bold" onClick={sortByMostPopular}>Most Popular</button></p>
-            <div className="md:grid md:gap-4 md:grid-cols-3 md:grid-rows-3">
+            <div className="md:grid md:gap-4 md:grid-cols-3">
                 {sortState}
             </div>
         </div>
