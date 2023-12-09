@@ -12,6 +12,7 @@ import DOMAIN from "../services/endpoint"
 import useSearchStore from '../store/SearchStore';
 import { useState, useEffect } from "react"
 
+
 export default function HomePage() {
 
     const data = useLoaderData()
