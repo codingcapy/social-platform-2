@@ -53,7 +53,7 @@ export default function ProfilePage() {
                 <button className="rounded-xl my-5 py-2 px-2 bg-slate-700 text-white" onClick={toggleEditMode}>Change password</button>}
             <p>{message}</p>
             <h2 className="py-5 text-2xl text-slate-700 font-medium">Your Posts</h2>
-            {data.userPosts.length === 0 ? <p>You haven't posted anything yet!</p> : data.userPosts.map((post) => <div key={post.Id} className="py-3">
+            {data.userPosts.length === 0 ? <p>You haven't posted anything yet!</p> : data.userPosts.map((post) => <div key={post.id} className="py-3">
                 <Link to={`/posts/${post.id.toString()}`} className="">
                     <p>Posted by <strong>{post.username}</strong> on {post.date}</p>
                     <h3>{post.title}</h3>
