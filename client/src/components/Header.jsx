@@ -30,9 +30,9 @@ export default function Header() {
         <header className="sticky z-50 top-0 md:flex justify-between bg-slate-700 text-white">
             {expandedMenu && <div className="flex flex-col md:flex-row">
                 <NavLink to="/" className="text-center py-4 px-5 mx-auto" onClick={() => setExpandedMenu(window.innerWidth < 500 ? false : true)}><div className="flex"><img src={A0} className="w-10 h-auto max-w-xs pr-2" /> CocoDog</div></NavLink>
-                <NavLink to="/" className="flex py-2 md:py-4 mx-auto" onClick={() => setExpandedMenu(window.innerWidth < 500 ? false : true)}><IoHomeSharp size={20} className=" text-center mx-2" /> Home</NavLink>
+                <NavLink to="/" className="flex mx-auto" onClick={() => setExpandedMenu(window.innerWidth < 500 ? false : true)}><IoHomeSharp size={20} className=" text-center mx-2" /> Home</NavLink>
             </div >}
-            {expandedMenu && <div className="w-80">
+            {expandedMenu && <div className="py-2 md:py-4 px-1">
                 <div className="flex px-2 mt-3 border rounded-lg border-white py-1"><RxMagnifyingGlass size={25} className="" /> <input type="text" className="bg-transparent text-white focus:outline-none flex-grow" placeholder="Search CocoDog" onChange={(e) => setContent(e.target.value)} /></div>
             </div>}
             {expandedMenu && <div className="flex flex-col md:block md:py-4">
