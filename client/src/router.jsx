@@ -21,7 +21,7 @@ export function Router() {
     const router = createBrowserRouter(
         createRoutesFromElements(
             <Route element={<Layout />}>
-                <Route path="/maintenance" element={<HomePage />} loader={pageLoader} />
+                <Route path="/" element={<HomePage />} loader={pageLoader} />
                 <Route path="/posts" element={<PostsPage />} loader={postsLoader} />
                 <Route path="/users/login" element={<LoginPage />} />
                 <Route path="/users/signup" element={<SignupPage />} />
