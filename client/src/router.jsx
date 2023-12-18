@@ -21,16 +21,17 @@ export function Router() {
     const router = createBrowserRouter(
         createRoutesFromElements(
             <Route element={<Layout />}>
-                <Route path="/" element={<HomePage />} loader={pageLoader} />
-                <Route path="/posts" element={<PostsPage />} loader={postsLoader} />
-                <Route path="/users/login" element={<LoginPage />} />
-                <Route path="/users/signup" element={<SignupPage />} />
+                <Route path="/maintenance" element={<HomePage />} loader={pageLoader} />
+                <Route path="/posts/maintenance" element={<PostsPage />} loader={postsLoader} />
+                <Route path="/users/maintenance" element={<LoginPage />} />
+                <Route path="/users/maintenance2" element={<SignupPage />} />
                 <Route path="/posts/:postId" element={<PostDetailsPage />} loader={postDetailsLoader} />
                 <Route path="/users/:userId" element={<ProfilePage />} loader={userPostsLoader} />
                 <Route path="/posts/create" element={<CreatePostPage />} />
-                <Route path="/maintenance" element={<MaintenancePage />} />
-                <Route path="/posts/maintenance" element={<MaintenancePage />} />
-                <Route path="/users/maintenance" element={<MaintenancePage />} />
+                <Route path="/" element={<MaintenancePage />} />
+                <Route path="/posts/" element={<MaintenancePage />} />
+                <Route path="/users/login" element={<MaintenancePage />} />
+                <Route path="/users/signup" element={<MaintenancePage />} />
             </Route>
         )
     )
